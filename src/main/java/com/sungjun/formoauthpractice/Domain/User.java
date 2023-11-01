@@ -8,10 +8,16 @@ import lombok.NoArgsConstructor;
 @Entity(name = "MEMBER")
 @Data
 @NoArgsConstructor
+@SequenceGenerator(
+        name = "MEMBER_SEQ_GENERATOR"
+        , sequenceName = "MEMBER_SEQ"
+        , initialValue = 1
+        , allocationSize = 1
+)
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_SEQ_GENERATOR")
     @Column(name = "UNIQUENUM")
     private Long uniqueNum;
 
@@ -25,13 +31,15 @@ public class User {
 
     private String role;
 
+    private String provider;
+
     @Builder
-    public User(/*Long uniqueNum,*/ String userid, String userpw, String email, String profileimg, String role) {
-        /*this.uniqueNum = uniqueNum;*/
+    public User(String userid, String userpw, String email, String profileimg, String role, String provider) {
         this.userid = userid;
         this.userpw = userpw;
         this.email = email;
         this.profileimg = profileimg;
         this.role = role;
+        this.provider = provider;
     }
 }

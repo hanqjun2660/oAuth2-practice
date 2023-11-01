@@ -10,8 +10,14 @@
 </div>
 
 <!--인증시 사용된 객체에 대한 정보-->
-<b>Authenticated DTO:</b>
+<b>PrincipalDetials:</b>
 <div sec:authentication="principal"></div>
+
+<b>User:</b>
+<div sec:authentication="principal.user"></div>
+
+<b>Attributes:</b>
+<div sec:authentication="principal.attributes"></div>
 
 <!--인증시 사용된 객체의 Username (ID)-->
 <b>Authenticated username:</b>

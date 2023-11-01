@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="/common/dependencies"/>
+    <title>회원가입</title>
+</head>
+<body>
+    ID: <input type="text" id="id" name="userid"/><br>
+    이메일: <input type="text" id="email" name="email"/><select id="emailPrefix"><option>선택</option></select><br>
+    비밀번호: <input type="password" id="userpw" name="password"/><br>
+    <button id="regist" type="submit">가입</button>
+</body>
+<script th:inline="javascript">
+    var button = document.querySelector('button');
+    var selector = document.querySelector('select');
+
+    $(document).ready(function () {
+        var list = [[${emailList}]];
+
+        list.forEach(function(email) {
+            var option = document.createElement('option'); // 새로운 <option> 요소 생성
+            option.value = email; // 옵션의 값 속성 설정
+            option.text = email; // 옵션의 텍스트 내용 설정
+            selector.appendChild(option); // 옵션을 셀렉트 요소에 추가
+        });
+
+        button.addEventListener('click', function () {
+            fn.registMember();
+        });
+    });
+
+    var fn = {
+        registMember : function () {
+            var paramMap = {
+                "userid" : document.querySelector('#id').value,
+                "userpw" : document.querySelector('#userpw').value,     // 실제로 할때는 인코딩해서 넘기자
+                "email" : document.querySelector('#email').value + document.querySelector('#emailPrefix').value
+            };
+
+            $.ajax({
+                type: 'post',
+                url: '/member/regist',
+                contentType: 'application/json; charset=utf-8',
+                data : JSON.stringify(paramMap),
+                success : function (result) {
+                    alert(result.msg);
+                    location.href = "/";
+                },
+                error : function (err) {
+                    alert(err.msg);
+                }
+            });
+        }
+    }
+</script>
+</html>

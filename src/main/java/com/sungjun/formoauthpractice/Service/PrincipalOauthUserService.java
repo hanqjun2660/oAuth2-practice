@@ -50,6 +50,7 @@ public class PrincipalOauthUserService extends DefaultOAuth2UserService {
                     .role("USER")
                     .email(email)
                     .profileimg(profileImg)
+                    .provider(provider)
                     .build();
             userRepository.save(user);
         } else {

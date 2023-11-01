@@ -1,5 +1,6 @@
 package com.sungjun.formoauthpractice.repository;
 
+import com.sungjun.formoauthpractice.Domain.MemberDTO;
 import com.sungjun.formoauthpractice.Domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -8,17 +8,25 @@ import com.sungjun.formoauthpractice.Domain.PrincipalDetails;
 import com.sungjun.formoauthpractice.Domain.User;
 import com.sungjun.formoauthpractice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * 일반 로그인용 Service
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class PrincipalService implements UserDetailsService {
+
+    private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
 
@@ -35,5 +43,28 @@ public class PrincipalService implements UserDetailsService {
         }
 
         return null;
+    }
+
+    public int save(Map<String, String> paramMap) {
+        int result;
+        User user;
+
+        user = User.builder()
+                .userid(paramMap.get("userid"))
+                .userpw(passwordEncoder.encode(paramMap.get("userpw")))
+                .email(paramMap.get("email"))
+                .provider("site")
+                .role("USER")
+                .build();
+
+        Optional<User> optionalUser = Optional.of(userRepository.save(user));
+
+        if(!optionalUser.isEmpty()) {
+            result = 1;
+        } else {
+            return -1;
+        }
+
+        return result;
     }
 }

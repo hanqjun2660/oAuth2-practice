@@ -26,9 +26,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().disable()
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/user/**").authenticated()
-                        .requestMatchers("/manager/**").hasAuthority("MANAGER")
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        /*.requestMatchers("/member/**").authenticated()*/
+                        .requestMatchers("/dashboard").hasAuthority("USER")
                         .anyRequest().permitAll()
                 )
                 .formLogin(login -> login
